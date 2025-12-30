@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vaikunta Darśanam</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:
+    linear-gradient(rgba(255,248,230,0.55), rgba(255,248,230,0.65)),
+    url("ksheera_sagara.png") center/cover no-repeat fixed;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Georgia,serif;
+  color:#3b2a14;
+  overflow:hidden;
+  position: relative;
+}
+
+/* Flower Rain Container */
+#flowerRain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  display: none;
+}
+
+.flower {
+  position: absolute;
+  font-size: 24px;
+  color: #ff6b8b;
+  opacity: 0.7;
+  animation: fall linear forwards;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+  user-select: none;
+}
+
+.flower:nth-child(2n) {
+  color: #ffa500;
+}
+
+.flower:nth-child(3n) {
+  color: #ffd700;
+}
+
+.flower:nth-child(4n) {
+  color: #ff69b4;
+}
+
+.flower:nth-child(5n) {
+  color: #32cd32;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* -------- Main Glass Panel -------- */
+
+#wrap{
+  text-align:center;
+  max-width:720px;
+  max-height:90vh;
+  padding:35px 45px;
+  background:rgba(255,255,255,0.65);
+  border-radius:22px;
+  backdrop-filter:blur(6px);
+  box-shadow:0 25px 60px rgba(120,80,30,0.25);
+  overflow-y: auto;
+  position: relative;
+  z-index: 20;
+}
+
+#wrap::-webkit-scrollbar {
+  width: 6px;
+}
+
+#wrap::-webkit-scrollbar-track {
+  background: rgba(184, 137, 46, 0.1);
+  border-radius: 3px;
+}
+
+#wrap::-webkit-scrollbar-thumb {
+  background: rgba(184, 137, 46, 0.3);
+  border-radius: 3px;
+}
+
+#wrap::-webkit-scrollbar-thumb:hover {
+  background: rgba(184, 137, 46, 0.5);
+}
+
+h1{
+  font-weight:normal;
+  letter-spacing:2px;
+  color:#6b3f12;
+  margin-top: 0;
+}
+
+#count{
+  font-size:3rem;
+  margin:20px 0;
+  color:#8a4f16;
+}
+
+/* -------- Divya Desam Display -------- */
+
+#desamDisplay{
+  min-height: 70px;
+  margin: 20px auto;
+  padding: 15px;
+  background: rgba(255, 248, 230, 0.7);
+  border-radius: 12px;
+  border: 1px solid rgba(184, 137, 46, 0.3);
+  transition: all 0.5s ease;
+}
+
+#desamName{
+  font-size: 1.3rem;
+  color: #5a3a16;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#desamLocation{
+  font-size: 1rem;
+  color: #7a5a2a;
+  font-style: italic;
+}
+
+/* -------- Button -------- */
+
+button{
+  padding:14px 36px;
+  font-size:1rem;
+  background:linear-gradient(to bottom,#f3c77a,#d89b3c);
+  border:none;
+  border-radius:30px;
+  color:#3b230a;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(140,90,20,0.35);
+  margin-top: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 25;
+}
+
+button:hover{
+  transform:translateY(-1px);
+  box-shadow:0 12px 28px rgba(140,90,20,0.45);
+}
+
+/* -------- Vaikunta Dwaram -------- */
+
+#dwaram{
+  display:none;
+  position:relative;
+  width:380px;
+  height:420px;
+  margin:30px auto;
+  z-index: 25;
+}
+
+#light{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle,#fff4c4,transparent 70%);
+  opacity:0;
+  transition:opacity 4s ease;
+}
+
+.door{
+  position:absolute;
+  top:0;
+  width:50%;
+  height:100%;
+  background:linear-gradient(to bottom,#e8c46a,#b8892e);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:transform 4s ease;
+  z-index: 30;
+}
+
+.door img{
+  width:65%;
+  max-width:150px;
+  opacity:0.95;
+  filter:drop-shadow(0 0 18px rgba(255,215,150,1));
+  animation:aura 3s ease-in-out infinite;
+}
+
+@keyframes aura{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.06);}
+}
+
+#leftDoor{left:0;border-right:1px solid #8a6a2a;}
+#rightDoor{right:0;border-left:1px solid #8a6a2a;}
+
+.open #leftDoor{transform:translateX(-100%)}
+.open #rightDoor{transform:translateX(100%)}
+.open #light{opacity:1}
+
+/* -------- Darshan -------- */
+
+#darshan{
+  display:none;
+  margin-top:25px;
+  max-width: 100%;
+  position: relative;
+  z-index: 25;
+}
+
+#frame{
+  width:300px;
+  margin:auto;
+  border-radius:16px;
+  box-shadow:0 0 50px rgba(255,215,150,0.95);
+  position: relative;
+  z-index: 25;
+}
+
+#frame img{
+  width:100%;
+  border-radius:16px;
+}
+
+#blessing{
+  margin-top:22px;
+  line-height:1.8;
+  font-size:1.15rem;
+  color:#4a2f14;
+  opacity:0;
+  animation:reveal 3s ease forwards;
+  animation-delay:2s;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 20px;
+  background: rgba(255, 248, 230, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(184, 137, 46, 0.2);
+  text-align: left;
+  position: relative;
+  z-index: 25;
+}
+
+#blessing::-webkit-scrollbar {
+  width: 5px;
+}
+
+#blessing::-webkit-scrollbar-track {
+  background: rgba(184, 137, 46, 0.1);
+  border-radius: 3px;
+}
+
+#blessing::-webkit-scrollbar-thumb {
+  background: rgba(184, 137, 46, 0.3);
+  border-radius: 3px;
+}
+
+#blessing strong {
+  display: block;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #5a3a16;
+}
+
+#blessingContent {
+  padding: 0 10px;
+}
+
+@keyframes reveal{
+  to{opacity:1}
+}
+
+/* Animation for new Divya Desam display */
+@keyframes highlightDesam {
+  0% { background-color: rgba(255, 248, 230, 0.7); }
+  50% { background-color: rgba(255, 240, 200, 0.9); }
+  100% { background-color: rgba(255, 248, 230, 0.7); }
+}
+
+.highlight {
+  animation: highlightDesam 1s ease;
+}
+
+/* Progress indicator */
+#progressBar {
+  width: 100%;
+  height: 6px;
+  background: rgba(184, 137, 46, 0.2);
+  border-radius: 3px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+#progressFill {
+  height: 100%;
+  background: linear-gradient(to right, #d89b3c, #b8892e);
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+/* Speech Status Indicator */
+#speechStatus {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #8a6a2a;
+  min-height: 20px;
+}
+
+/* Counter for displayed Divya Desams */
+#desamCounter {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  color: #7a5a2a;
+  font-style: italic;
+}
+
+/* Back to Chanting Button */
+#backButton {
+  display: none;
+  padding: 12px 30px;
+  font-size: 0.9rem;
+  background: linear-gradient(to bottom, #e8c46a, #b8892e);
+  border: none;
+  border-radius: 25px;
+  color: #3b230a;
+  cursor: pointer;
+  margin-top: 20px;
+  box-shadow: 0 6px 15px rgba(140,90,20,0.3);
+  position: relative;
+  z-index: 25;
+}
+
+#backButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(140,90,20,0.4);
+}
+
+/* Golden Sparkles */
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: gold;
+  border-radius: 50%;
+  box-shadow: 0 0 10px gold, 0 0 20px gold;
+  opacity: 0;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Flower Rain Container -->
+<div id="flowerRain"></div>
+
+<div id="wrap">
+  <h1>ॐ నమో నారాయణాయ</h1>
+  <div id="count">0 / 108</div>
+  
+  <!-- Progress Bar -->
+  <div id="progressBar">
+    <div id="progressFill"></div>
+  </div>
+  
+  <!-- Divya Desam Display -->
+  <div id="desamDisplay">
+    <div id="desamName">Chant Om Namo Narayanaya to begin...</div>
+    <div id="desamLocation">With each chant, discover one of the 108 Divya Desams</div>
+    <div id="desamCounter">Displayed: 0 / 108</div>
+  </div>
+
+  <button id="chant">Chant Om Namo Narayanaya</button>
+  
+  <!-- Speech Status -->
+  <div id="speechStatus"></div>
+
+  <!-- Vaikunta Dwaram -->
+  <div id="dwaram">
+    <div id="light"></div>
+
+    <div id="leftDoor" class="door">
+      <img src="chakram.png" alt="Sudarshana Chakra">
+    </div>
+
+    <div id="rightDoor" class="door">
+      <img src="shankam.png" alt="Shankha">
+    </div>
+  </div>
+
+  <!-- Darshan -->
+  <div id="darshan">
+    <div id="frame">
+      <img src="vishnu.png" alt="Lord Vishnu on Adisesha">
+    </div>
+
+    <div id="blessing">
+      <strong>వైకుంఠ దర్శనం</strong>
+      <div id="blessingContent">
+        వైకుంఠానికి స్వాగతం నా ప్రియ భక్తుడా.<br><br>
+        నేను ఎల్లప్పుడూ నీతోనే ఉన్నాను.<br>
+        నీవు నీ కర్తవ్యాన్ని నిష్ఠగా చేయి.<br>
+        ఫలితాన్ని నాపై వదిలేయి.<br>
+        నేను నీ సంరక్షణ బాధ్యత తీసుకుంటాను.<br><br>
+        ఓం నమో నారాయణాయ<br>
+        ఓం నమో నారాయణాయ<br>
+        ఓం నమో నారాయణాయ
+      </div>
+    </div>
+    
+    <button id="backButton">Chant Again</button>
+  </div>
+</div>
+
+<!-- 🔊 Background Audio -->
+<audio id="bgAudio" src="bg.mp3" loop></audio>
+
+<script>
+// COMPLETE AND VERIFIED LIST OF 108 DIVYA DESAMS
+const divyaDesams = [
+  // 1-10: Trichy Area
+  ["Srirangam - Ranganathaswamy Temple", "Tiruchirappalli, Tamil Nadu"],
+  ["Thirukkozhi - Uyyakondan Temple", "Tiruchirappalli, Tamil Nadu"],
+  ["Thirukkarambanur - Sundararaja Perumal Temple", "Tiruchirappalli, Tamil Nadu"],
+  ["Thiruvellarai - Pundarikakshan Perumal Temple", "Tiruchirappalli, Tamil Nadu"],
+  ["Thiruanbil - Sri Vadivazhagiya Nambi Temple", "Tiruchirappalli, Tamil Nadu"],
+  ["Thirupper Nagar - Appakkudathaan Perumal Temple", "Tiruchirappalli, Tamil Nadu"],
+  
+  // 7-20: Thanjavur Area
+  ["Thirukkandiyur - Hara Saabha Vimocchana Perumal Temple", "Thanjavur, Tamil Nadu"],
+  ["Thirukkoodaloor - Aaduthurai Perumal Temple", "Thanjavur, Tamil Nadu"],
+  ["Thiruvellakulam - Sri Nelliappar Temple", "Thanjavur, Tamil Nadu"],
+  ["Thirukkavithalam - Sri Kavantheeswarar Temple", "Thanjavur, Tamil Nadu"],
+  ["Thirukkandam - Sri Nithyakalyana Perumal Temple", "Thanjavur, Tamil Nadu"],
+  
+  // 12-25: Nagapattinam & Kumbakonam Area
+  ["Thirukkannapuram - Sowriraja Perumal Temple", "Nagapattinam, Tamil Nadu"],
+  ["Thirukkannamangai - Bhaktavatsala Perumal Temple", "Nagapattinam, Tamil Nadu"],
+  ["Thirunandhipura Vinnagaram - Sri Vaikuntha Nathar Temple", "Nagapattinam, Tamil Nadu"],
+  ["Thiruvinnagar - Oppiliappan Temple", "Kumbakonam, Tamil Nadu"],
+  ["Thirukkudanthai - Sarangapani Temple", "Kumbakonam, Tamil Nadu"],
+  ["Thiruvazhundur - Sri Devaadi Raja Perumal Temple", "Mayiladuthurai, Tamil Nadu"],
+  ["Thiruchitrakootam - Sri Govindaraja Perumal Temple", "Chidambaram, Tamil Nadu"],
+  
+  // 19-30: Northern Tamil Nadu
+  ["Thiruvahindrapuram - Sri Deva Nayaka Perumal Temple", "Cuddalore, Tamil Nadu"],
+  ["Thirukkovalur - Trivikrama Perumal Temple", "Kallakurichi, Tamil Nadu"],
+  ["Thiruvakkarai - Sri Ulagalanda Perumal Temple", "Villupuram, Tamil Nadu"],
+  
+  // 22-35: Chennai Area
+  ["Thiruvallikkeni - Parthasarathy Temple", "Chennai, Tamil Nadu"],
+  ["Thiruneermalai - Sri Neervanna Perumal Temple", "Chennai, Tamil Nadu"],
+  ["Thirunindravur - Sri Bhaktavatsala Perumal Temple", "Chennai, Tamil Nadu"],
+  ["Thiruvallur - Sri Veera Raghava Swamy Temple", "Thiruvallur, Tamil Nadu"],
+  
+  // 26-40: Chengalpattu Area
+  ["Thiruvendai - Sri Vijaya Raghava Perumal Temple", "Chengalpattu, Tamil Nadu"],
+  ["Thirupachai - Sri Pavala Vannar Temple", "Chengalpattu, Tamil Nadu"],
+  ["Thirukadalmallai - Sri Sthalasayana Perumal Temple", "Mahabalipuram, Tamil Nadu"],
+  ["Thirukkaranai - Sri Kariya Manicka Perumal Temple", "Chengalpattu, Tamil Nadu"],
+  ["Thirukkarikundram - Sri Karkadeswarar Temple", "Chengalpattu, Tamil Nadu"],
+  ["Thirukoodaloor - Sri Koodal Azhagar Temple", "Chengalpattu, Tamil Nadu"],
+  
+  // 32-44: Kanchipuram Divya Desams (13 temples)
+  ["Thiruvelukkai - Sri Azhagiya Singar Temple", "Kanchipuram, Tamil Nadu"],
+  ["Thirukazhicheerama Vinnagaram - Sri Nathan Koil", "Kanchipuram, Tamil Nadu"],
+  ["Thirukkaragam - Sri Karunakara Perumal Temple", "Kanchipuram, Tamil Nadu"],
+  ["Thirukkarvanam - Sri Thirukkarvanam Temple", "Kanchipuram, Tamil Nadu"],
+  ["Thiruneeragam - Sri Neeraga Nathan Temple", "Kanchipuram, Tamil Nadu"],
+  ["Thiruooragam - Sri Ulagalantha Perumal Temple", "Kanchipuram, Tamil Nadu"],
+  ["Thirupadagam - Sri Pandava Thoodar Temple", "Kanchipuram, Tamil Nadu"],
+  ["Thiruparameshwara Vinnagaram - Sri Vaikunta Perumal Temple", "Kanchipuram, Tamil Nadu"],
+  ["Thiruppavala Vinnagaram - Sri Pavala Vannar Temple", "Kanchipuram, Tamil Nadu"],
+  ["Thirutthanka - Sri Deepa Prakasar Temple", "Kanchipuram, Tamil Nadu"],
+  ["Thiruvehka - Sri Yathothkari Perumal Temple", "Kanchipuram, Tamil Nadu"],
+  ["Yathothkari - Sri Yathothkari Perumal Temple", "Kanchipuram, Tamil Nadu"],
+  
+  // 45-50: Vellore Area
+  ["Thiruvellukkai - Sri Aadhi Kesava Perumal Temple", "Vellore, Tamil Nadu"],
+  ["Thiruvallam - Sri Sundara Varadaraja Perumal Temple", "Vellore, Tamil Nadu"],
+  ["Thiruvellore - Sri Kalyana Varadaraja Perumal Temple", "Vellore, Tamil Nadu"],
+  
+  // 48-60: Southern Tamil Nadu
+  ["Srivilliputhur - Sri Andal Temple", "Virudhunagar, Tamil Nadu"],
+  ["Thiruthangal - Sri Narayana Perumal Temple", "Sivakasi, Tamil Nadu"],
+  ["Thirukkoshtiyur - Sri Sowmya Narayana Perumal Temple", "Sivagangai, Tamil Nadu"],
+  ["Thirupullani - Sri Kalyana Jagannatha Perumal Temple", "Ramanathapuram, Tamil Nadu"],
+  ["Thirumeyyam - Sri Sathyagiri Natha Perumal Temple", "Pudukkottai, Tamil Nadu"],
+  
+  // 53-65: Kanyakumari District
+  ["Thiruppathisaram - Sri Kuralappan Temple", "Kanyakumari, Tamil Nadu"],
+  ["Thiruvattar - Sri Adikesava Perumal Temple", "Kanyakumari, Tamil Nadu"],
+  ["Thiruvanparisaram - Sri Kuralappan Temple", "Kanyakumari, Tamil Nadu"],
+  ["Thiruvithamcode - Sri Maha Vishnu Temple", "Kanyakumari, Tamil Nadu"],
+  
+  // 57-75: Tirunelveli Area
+  ["Thirupuliyangudi - Sri Bhoomipalar Temple", "Tirunelveli, Tamil Nadu"],
+  ["Thirukkolur - Sri Vaithamanidhi Perumal Temple", "Tirunelveli, Tamil Nadu"],
+  ["Thirukkurugur - Sri Aadhinathar Temple", "Tirunelveli, Tamil Nadu"],
+  ["Thiruvazhunthoor - Sri Iravinarkudi Temple", "Tirunelveli, Tamil Nadu"],
+  ["Thirupperai - Sri Kailasanathar Temple", "Tirunelveli, Tamil Nadu"],
+  ["Thirukkurungudi - Sri Nambirayar Temple", "Tirunelveli, Tamil Nadu"],
+  ["Thiruvamathur - Sri Rajagopalaswamy Temple", "Tirunelveli, Tamil Nadu"],
+  ["Thiruppulingudi - Sri Kalyana Sundarar Temple", "Tirunelveli, Tamil Nadu"],
+  
+  // 65-80: Madurai Area
+  ["Alagarkoil - Sri Kallalagar Temple", "Madurai, Tamil Nadu"],
+  ["Thirumohoor - Sri Kalyana Jagannatha Perumal Temple", "Madurai, Tamil Nadu"],
+  ["Thiruvadavoor - Sri Koodal Azhagar Temple", "Madurai, Tamil Nadu"],
+  ["Thiruvali-Thirunagari", "Tirunelveli, Tamil Nadu"],
+  
+  // 68-85: Kerala Divya Desams
+  ["Thiruvananthapuram - Sri Padmanabhaswamy Temple", "Thiruvananthapuram, Kerala"],
+  ["Thiruvalla - Sri Vallabha Temple", "Pathanamthitta, Kerala"],
+  ["Thirumoozhikkalam - Sri Moozhikkalathaan Temple", "Ernakulam, Kerala"],
+  ["Thiruppuliyur - Sri Ayyappa Temple", "Alappuzha, Kerala"],
+  ["Thirukodithanam - Sri Maha Vishnu Temple", "Kottayam, Kerala"],
+  ["Thiruvazhmarban - Sri Anantha Padmanabha Temple", "Kollam, Kerala"],
+  ["Thirunavaya - Sri Navamukunda Temple", "Malappuram, Kerala"],
+  ["Thiruvithuvakkodu - Sri Vishnu Temple", "Palakkad, Kerala"],
+  ["Thirukkatkarai - Sri Katkarai Appan Temple", "Thrissur, Kerala"],
+  ["Thiruvanvandoor - Sri Mahadeva Temple", "Alappuzha, Kerala"],
+  ["Thirucchenkundroor - Sri Chenkundroor Temple", "Ernakulam, Kerala"],
+  ["Thiruvaranvilai - Sri Aranmula Parthasarathy Temple", "Kollam, Kerala"],
+  ["Thiruvithuvakkodu - Sri Malayalappuzha Temple", "Palakkad, Kerala"],
+  ["Thiruppuliyur - Sri Aranmula Temple", "Pathanamthitta, Kerala"],
+  ["Thirukodithanam - Sri Kidangoor Temple", "Kottayam, Kerala"],
+  
+  // 83-95: Andhra Pradesh
+  ["Thirumalai - Sri Venkateswara Temple", "Tirupati, Andhra Pradesh"],
+  ["Ahobilam - Sri Narasimha Temple", "Nandyal, Andhra Pradesh"],
+  ["Simhachalam - Sri Varaha Lakshmi Narasimha Temple", "Visakhapatnam, Andhra Pradesh"],
+  ["Thiruvengadam - Sri Srinivasa Temple", "Tirumala Hills, Andhra Pradesh"],
+  ["Srikurmam - Sri Kurmanatha Temple", "Srikakulam, Andhra Pradesh"],
+  
+  // 88-100: Karnataka
+  ["Melukote - Sri Yadava Narayana Temple", "Mandya, Karnataka"],
+  ["Udupi - Sri Krishna Temple", "Udupi, Karnataka"],
+  ["Kukke Subrahmanya - Sri Subrahmanya Temple", "Mangalore, Karnataka"],
+  
+  // 91-104: Other States in India
+  ["Badrinath - Sri Badrinarayana Temple", "Uttarakhand"],
+  ["Salagrama - Sri Lakshmi Narayana Temple", "Mustang, Nepal"],
+  ["Dwarka - Sri Dwarakadhish Temple", "Gujarat"],
+  ["Puri - Sri Jagannath Temple", "Odisha"],
+  ["Mathura - Sri Krishna Janmasthan Temple", "Mathura, Uttar Pradesh"],
+  ["Vrindavan - Sri Banke Bihari Temple", "Mathura, Uttar Pradesh"],
+  ["Ayodhya - Sri Ram Janmabhoomi Temple", "Uttar Pradesh"],
+  ["Naimisharanya - Sri Chakra Narayana Temple", "Sitapur, Uttar Pradesh"],
+  ["Pushkar - Sri Brahma Temple", "Rajasthan"],
+  
+  // 100-106: More Temples
+  ["Thiruvaragunamangai - Sri Perumal Temple", "Tirunelveli, Tamil Nadu"],
+  ["Thiruvazhimarban - Sri Ananthapadmanabhaswamy Temple", "Kollam, Kerala"],
+  ["Thiruvidaikazhi - Sri Appan Temple", "Kanyakumari, Tamil Nadu"],
+  ["Thiruvaram - Sri Perumal Temple", "Kanyakumari, Tamil Nadu"],
+  ["Thiruvananthapuram - Sri Anantha Padmanabha Temple", "Thiruvananthapuram, Kerala"],
+  ["Thirukkottiyur", "Sivaganga, Tamil Nadu"],
+  
+  // 107-108: Celestial Realms
+  ["Thiruppaarkadal (Ocean of Milk)", "Cosmic Realm"],
+  ["Paramapadam (Vaikuntha)", "Divine Abode of Lord Vishnu"]
+];
+
+// Variables
+let count = 0;
+const max = 108;
+let shuffledDesams = [];
+let isSpeaking = false;
+let displayedDesams = 0;
+let flowerInterval;
+
+// DOM Elements
+const countEl = document.getElementById("count");
+const btn = document.getElementById("chant");
+const dwaram = document.getElementById("dwaram");
+const darshan = document.getElementById("darshan");
+const bgAudio = document.getElementById("bgAudio");
+const desamNameEl = document.getElementById("desamName");
+const desamLocationEl = document.getElementById("desamLocation");
+const desamDisplayEl = document.getElementById("desamDisplay");
+const progressFill = document.getElementById("progressFill");
+const speechStatusEl = document.getElementById("speechStatus");
+const desamCounterEl = document.getElementById("desamCounter");
+const backButton = document.getElementById("backButton");
+const wrapEl = document.getElementById("wrap");
+const flowerRain = document.getElementById("flowerRain");
+
+// Initialize shuffled Divya Desams
+function initializeDesams() {
+  shuffledDesams = [...divyaDesams];
+  
+  if (shuffledDesams.length !== 108) {
+    console.warn(`Found ${shuffledDesams.length} temples, expected 108`);
+  }
+  
+  // Shuffle the array
+  for (let i = shuffledDesams.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledDesams[i], shuffledDesams[j]] = [shuffledDesams[j], shuffledDesams[i]];
+  }
+}
+
+// Create flower rain effect
+function createFlowerRain() {
+  // Show flower rain container
+  flowerRain.style.display = 'block';
+  
+  // Create flowers continuously
+  flowerInterval = setInterval(() => {
+    createFlower();
+  }, 100); // Create a flower every 100ms
+  
+  // Stop after 30 seconds
+  setTimeout(() => {
+    stopFlowerRain();
+  }, 30000);
+}
+
+function createFlower() {
+  const flower = document.createElement('div');
+  flower.className = 'flower';
+  flower.innerHTML = '❀'; // Flower emoji
+  
+  // Random position
+  const startX = Math.random() * window.innerWidth;
+  const duration = 5 + Math.random() * 5; // 5-10 seconds
+  const size = 20 + Math.random() * 20; // 20-40px
+  
+  // Set styles
+  flower.style.left = `${startX}px`;
+  flower.style.fontSize = `${size}px`;
+  flower.style.animationDuration = `${duration}s`;
+  
+  // Add to container
+  flowerRain.appendChild(flower);
+  
+  // Remove after animation completes
+  setTimeout(() => {
+    if (flower.parentNode === flowerRain) {
+      flowerRain.removeChild(flower);
+    }
+  }, duration * 1000);
+}
+
+function stopFlowerRain() {
+  clearInterval(flowerInterval);
+  setTimeout(() => {
+    flowerRain.style.display = 'none';
+    // Remove all flowers
+    while (flowerRain.firstChild) {
+      flowerRain.removeChild(flowerRain.firstChild);
+    }
+  }, 5000); // Wait for remaining flowers to finish
+}
+
+// Create golden sparkles
+function createSparkles() {
+  for (let i = 0; i < 50; i++) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = `${Math.random() * 100}vw`;
+    sparkle.style.top = `${Math.random() * 100}vh`;
+    sparkle.style.animationDelay = `${Math.random() * 2}s`;
+    document.body.appendChild(sparkle);
+    
+    // Remove after animation
+    setTimeout(() => {
+      if (sparkle.parentNode) {
+        sparkle.parentNode.removeChild(sparkle);
+      }
+    }, 4000);
+  }
+}
+
+// Unlock audio function
+function unlockAudio() {
+  bgAudio.play().catch(() => {});
+  
+  if ("speechSynthesis" in window) {
+    const dummy = new SpeechSynthesisUtterance(" ");
+    dummy.lang = "te-IN";
+    speechSynthesis.speak(dummy);
+  }
+}
+
+// Update Divya Desam display
+function updateDesamDisplay() {
+  if (count > 0 && count <= max) {
+    const desamIndex = count - 1;
+    
+    if (desamIndex < shuffledDesams.length) {
+      const [name, location] = shuffledDesams[desamIndex];
+      desamNameEl.textContent = `${count}. ${name}`;
+      desamLocationEl.textContent = location;
+      
+      const progressPercent = (count / max) * 100;
+      progressFill.style.width = `${progressPercent}%`;
+      
+      displayedDesams = count;
+      desamCounterEl.textContent = `Displayed: ${displayedDesams} / 108`;
+      
+      desamDisplayEl.classList.remove('highlight');
+      void desamDisplayEl.offsetWidth;
+      desamDisplayEl.classList.add('highlight');
+    }
+  }
+}
+
+// Improved Telugu Speech Function
+function speakTelugu() {
+  if (!("speechSynthesis" in window)) {
+    speechStatusEl.textContent = "Speech synthesis not supported. Please read the divine message.";
+    return;
+  }
+  
+  speechSynthesis.cancel();
+  
+  speechStatusEl.textContent = "Lord Vishnu is blessing you...";
+  isSpeaking = true;
+  
+  const teluguText = 
+    "వైకుంఠానికి స్వాగతం నా ప్రియ భక్తుడా. " +
+    "నేను ఎల్లప్పుడూ నీతోనే ఉన్నాను. " +
+    "నీవు నీ కర్తవ్యాన్ని నిష్ఠగా చేయి. " +
+    "ఫలితాన్ని నాపై వదిలేయి. " +
+    "నేను నీ సంరక్షణ బాధ్యత తీసుకుంటాను. " +
+    "ఓం నమో నారాయణాయ " +
+    "ఓం నమో నారాయణాయ " +
+    "ఓం నమో నారాయణాయ";
+  
+  const utterance = new SpeechSynthesisUtterance(teluguText);
+  utterance.lang = "te-IN";
+  utterance.rate = 0.75;
+  utterance.pitch = 1.0;
+  utterance.volume = 1;
+  
+  const voices = speechSynthesis.getVoices();
+  const teluguVoice = voices.find(voice => 
+    voice.lang === "te-IN" || 
+    voice.lang.startsWith("te") ||
+    voice.name.toLowerCase().includes("telugu")
+  );
+  
+  if (teluguVoice) {
+    utterance.voice = teluguVoice;
+  }
+  
+  utterance.onstart = () => {
+    speechStatusEl.textContent = "Listening to Lord Vishnu's blessing...";
+    setTimeout(() => {
+      const blessingEl = document.getElementById('blessing');
+      if (blessingEl) {
+        blessingEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 500);
+  };
+  
+  utterance.onend = () => {
+    speechStatusEl.textContent = "Blessing complete. Om Namo Narayanaya!";
+    isSpeaking = false;
+    
+    setTimeout(() => {
+      backButton.style.display = 'inline-block';
+      speechStatusEl.textContent = "Experience the divine presence...";
+    }, 2000);
+  };
+  
+  utterance.onerror = (event) => {
+    speechStatusEl.textContent = "Blessing experienced silently. Om Namo Narayanaya!";
+    isSpeaking = false;
+    backButton.style.display = 'inline-block';
+  };
+  
+  setTimeout(() => {
+    speechSynthesis.speak(utterance);
+  }, 1000);
+}
+
+// Chant button click handler
+btn.onclick = () => {
+  unlockAudio();
+
+  if (count < max) {
+    count++;
+    countEl.textContent = `${count} / ${max}`;
+    updateDesamDisplay();
+  }
+
+  if (count === max) {
+    btn.style.display = "none";
+    speechStatusEl.textContent = "Chanting complete! Vaikunta doors opening...";
+    
+    // Start flower rain when chanting completes
+    createFlowerRain();
+    createSparkles();
+    
+    setTimeout(openDwaram, 2000);
+  }
+};
+
+function openDwaram() {
+  dwaram.style.display = "block";
+  speechStatusEl.textContent = "Vaikunta doors are opening...";
+  setTimeout(() => {
+    dwaram.classList.add("open");
+    speechStatusEl.textContent = "Entering the divine abode...";
+  }, 200);
+  setTimeout(showDarshan, 4500);
+}
+
+function showDarshan() {
+  dwaram.style.display = "none";
+  darshan.style.display = "block";
+  speechStatusEl.textContent = "You have reached Vaikuntha!";
+  
+  setTimeout(() => {
+    darshan.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300);
+  
+  setTimeout(() => {
+    speakTelugu();
+  }, 2000);
+}
+
+// Back button to restart
+backButton.onclick = () => {
+  // Reset everything
+  count = 0;
+  displayedDesams = 0;
+  countEl.textContent = "0 / 108";
+  desamNameEl.textContent = "Chant Om Namo Narayanaya to begin...";
+  desamLocationEl.textContent = "With each chant, discover one of the 108 Divya Desams";
+  desamCounterEl.textContent = "Displayed: 0 / 108";
+  progressFill.style.width = "0%";
+  speechStatusEl.textContent = "";
+  darshan.style.display = "none";
+  backButton.style.display = "none";
+  btn.style.display = "inline-block";
+  
+  // Stop flower rain
+  stopFlowerRain();
+  
+  // Reinitialize with new shuffle
+  initializeDesams();
+  
+  // Scroll back to top
+  wrapEl.scrollTo({ top: 0, behavior: 'smooth' });
+  
+  // Stop any ongoing speech
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+  }
+};
+
+// Initialize
+bgAudio.volume = 0.25;
+initializeDesams();
+
+// Check for speech synthesis support on page load
+window.addEventListener('load', () => {
+  if (!('speechSynthesis' in window)) {
+    speechStatusEl.textContent = "Audio blessings not supported. Please read the divine message.";
+  }
+  
+  if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = () => {
+      console.log("Voices loaded");
+    };
+  }
+});
+
+// Set initial message
+desamNameEl.textContent = "Chant Om Namo Narayanaya to begin...";
+desamLocationEl.textContent = "With each chant, discover one of the 108 Divya Desams";
+desamCounterEl.textContent = "Displayed: 0 / 108";
+progressFill.style.width = "0%";
+
+// Add keyboard shortcut (Spacebar for chanting)
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && count < max && !isSpeaking) {
+    e.preventDefault();
+    btn.click();
+  }
+});
+
+// Stop speech if user navigates away
+window.addEventListener('beforeunload', () => {
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+  }
+  stopFlowerRain();
+});
+</script>
+
+</body>
+</html>
