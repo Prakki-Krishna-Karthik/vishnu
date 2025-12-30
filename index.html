@@ -253,16 +253,14 @@ button:hover{
   color:#4a2f14;
   opacity:0;
   animation:reveal 3s ease forwards;
-  animation-delay:2s;
+  animation-delay:1s;
   max-height: 300px;
   overflow-y: auto;
   padding: 20px;
   background: rgba(255, 248, 230, 0.8);
   border-radius: 12px;
   border: 1px solid rgba(184, 137, 46, 0.2);
-  text-align: left;
-  position: relative;
-  z-index: 25;
+  text-align: center;
 }
 
 #blessing::-webkit-scrollbar {
@@ -289,6 +287,7 @@ button:hover{
 
 #blessingContent {
   padding: 0 10px;
+  text-align: center;
 }
 
 @keyframes reveal{
@@ -402,7 +401,7 @@ button:hover{
 
   <button id="chant">Chant Om Namo Narayanaya</button>
   
-  <!-- Speech Status -->
+  <!-- Status Message -->
   <div id="speechStatus"></div>
 
   <!-- Vaikunta Dwaram -->
@@ -596,7 +595,6 @@ const divyaDesams = [
 let count = 0;
 const max = 108;
 let shuffledDesams = [];
-let isSpeaking = false;
 let displayedDesams = 0;
 let flowerInterval;
 
@@ -706,12 +704,6 @@ function createSparkles() {
 // Unlock audio function
 function unlockAudio() {
   bgAudio.play().catch(() => {});
-  
-  if ("speechSynthesis" in window) {
-    const dummy = new SpeechSynthesisUtterance(" ");
-    dummy.lang = "te-IN";
-    speechSynthesis.speak(dummy);
-  }
 }
 
 // Update Divya Desam display
@@ -735,76 +727,6 @@ function updateDesamDisplay() {
       desamDisplayEl.classList.add('highlight');
     }
   }
-}
-
-// Improved Telugu Speech Function
-function speakTelugu() {
-  if (!("speechSynthesis" in window)) {
-    speechStatusEl.textContent = "Speech synthesis not supported. Please read the divine message.";
-    return;
-  }
-  
-  speechSynthesis.cancel();
-  
-  speechStatusEl.textContent = "Lord Vishnu is blessing you...";
-  isSpeaking = true;
-  
-  const teluguText = 
-    "వైకుంఠానికి స్వాగతం నా ప్రియ భక్తుడా. " +
-    "నేను ఎల్లప్పుడూ నీతోనే ఉన్నాను. " +
-    "నీవు నీ కర్తవ్యాన్ని నిష్ఠగా చేయి. " +
-    "ఫలితాన్ని నాపై వదిలేయి. " +
-    "నేను నీ సంరక్షణ బాధ్యత తీసుకుంటాను. " +
-    "ఓం నమో నారాయణాయ " +
-    "ఓం నమో నారాయణాయ " +
-    "ఓం నమో నారాయణాయ";
-  
-  const utterance = new SpeechSynthesisUtterance(teluguText);
-  utterance.lang = "te-IN";
-  utterance.rate = 0.75;
-  utterance.pitch = 1.0;
-  utterance.volume = 1;
-  
-  const voices = speechSynthesis.getVoices();
-  const teluguVoice = voices.find(voice => 
-    voice.lang === "te-IN" || 
-    voice.lang.startsWith("te") ||
-    voice.name.toLowerCase().includes("telugu")
-  );
-  
-  if (teluguVoice) {
-    utterance.voice = teluguVoice;
-  }
-  
-  utterance.onstart = () => {
-    speechStatusEl.textContent = "Listening to Lord Vishnu's blessing...";
-    setTimeout(() => {
-      const blessingEl = document.getElementById('blessing');
-      if (blessingEl) {
-        blessingEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 500);
-  };
-  
-  utterance.onend = () => {
-    speechStatusEl.textContent = "Blessing complete. Om Namo Narayanaya!";
-    isSpeaking = false;
-    
-    setTimeout(() => {
-      backButton.style.display = 'inline-block';
-      speechStatusEl.textContent = "Experience the divine presence...";
-    }, 2000);
-  };
-  
-  utterance.onerror = (event) => {
-    speechStatusEl.textContent = "Blessing experienced silently. Om Namo Narayanaya!";
-    isSpeaking = false;
-    backButton.style.display = 'inline-block';
-  };
-  
-  setTimeout(() => {
-    speechSynthesis.speak(utterance);
-  }, 1000);
 }
 
 // Chant button click handler
@@ -844,13 +766,16 @@ function showDarshan() {
   darshan.style.display = "block";
   speechStatusEl.textContent = "You have reached Vaikuntha!";
   
+  // Show back button after a short delay
+  setTimeout(() => {
+    backButton.style.display = 'inline-block';
+    speechStatusEl.textContent = "Experience the divine presence...";
+  }, 3000);
+  
+  // Auto-scroll to darshan section
   setTimeout(() => {
     darshan.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 300);
-  
-  setTimeout(() => {
-    speakTelugu();
-  }, 2000);
 }
 
 // Back button to restart
@@ -876,29 +801,11 @@ backButton.onclick = () => {
   
   // Scroll back to top
   wrapEl.scrollTo({ top: 0, behavior: 'smooth' });
-  
-  // Stop any ongoing speech
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel();
-  }
 };
 
 // Initialize
 bgAudio.volume = 0.25;
 initializeDesams();
-
-// Check for speech synthesis support on page load
-window.addEventListener('load', () => {
-  if (!('speechSynthesis' in window)) {
-    speechStatusEl.textContent = "Audio blessings not supported. Please read the divine message.";
-  }
-  
-  if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = () => {
-      console.log("Voices loaded");
-    };
-  }
-});
 
 // Set initial message
 desamNameEl.textContent = "Chant Om Namo Narayanaya to begin...";
@@ -908,17 +815,14 @@ progressFill.style.width = "0%";
 
 // Add keyboard shortcut (Spacebar for chanting)
 document.addEventListener('keydown', (e) => {
-  if (e.code === 'Space' && count < max && !isSpeaking) {
+  if (e.code === 'Space' && count < max) {
     e.preventDefault();
     btn.click();
   }
 });
 
-// Stop speech if user navigates away
+// Stop flower rain if user navigates away
 window.addEventListener('beforeunload', () => {
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel();
-  }
   stopFlowerRain();
 });
 </script>
